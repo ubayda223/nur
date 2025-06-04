@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TurkiyaMode</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">TurkiyaMode 🛍️</div>
+            <button class="nav-toggle">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="#home" data-section="home">Главная</a></li>
+                    <li><a href="#shop" data-section="shop">Магазин</a></li>
+                    <li><a href="#cart" data-section="cart">Корзина <span id="cart-count">0</span></a></li>
+                    <li><a href="#orders" data-section="orders" id="orders-link" style="display: none;">Заказы</a></li>
+                    <li><a href="#profile" data-section="profile" id="profile-link" style="display: none;">Профиль</a></li>
+                    <li><a href="#admin" data-section="admin" id="admin-link" style="display: none;" data-protected="true">Админ</a></li>
+                </ul>
+            </nav>
+            <div class="theme-toggle">
+                <button id="theme-button">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section data-section="home">
+            <div class="container">
+                <h1>🛍️ Добро пожаловать в TurkiyaMode!</h1>
+                <p>Стильная одежда и качественная техника из Турции</p>
+                <a href="#shop" class="button">Начать покупки</a>
+
+                <h2>🎯 Почему выбирают нас?</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <h3>Качество</h3>
+                        <p>Только оригинальные товары высокого качества</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Быстрая доставка</h3>
+                        <p>Доставляем по всему Таджикистану</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Поддержка 24/7</h3>
+                        <p>Всегда готовы помочь и ответить на вопросы</p>
+                    </div>
+                </div>
+
+                <div class="contact-links">
+                    <a href="https://t.me/ubayda_1507" class="button">Telegram</a>
+                    <a href="https://wa.me/992905746633" class="button">WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+        <section data-section="shop" style="display: none;">
+            <div class="container">
+                <h2>🛍️ Наш магазин</h2>
+                <div class="shop-controls">
+                    <input type="text" id="search-input" placeholder="Поиск товаров...">
+                    <select id="sort-select">
+                        <option value="default">Сортировка по умолчанию</option>
+                        <option value="price-asc">По цене (возрастание)</option>
+                        <option value="price-desc">По цене (убывание)</option>
+                        <option value="date-desc">По дате (новые)</option>
+                    </select>
+                    <div class="filter">
+                        <button class="filter-button active" data-filter="all">Все товары</button>
+                        <button class="filter-button" data-filter="clothing">Одежда</button>
+                        <button class="filter-button" data-filter="tech">Техника</button>
+                    </div>
+                </div>
+                <div class="product-grid" id="product-grid"></div>
+            </div>
+        </section>
+
+        <section data-section="admin" style="display: none;" data-protected="true">
+            <div class="container">
+                <h2>Администратор TurkiyaMode</h2>
+                <p>Добро пожаловать в панель управления</p>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3 id="product-count">0</h3>
+                        <p>Товаров</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="order-count">0</h3>
+                        <p>Заказов</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>24/7</h3>
+                        <p>Поддержка</p>
+                    </div>
+                </div>
+                <h2>📊 Управление магазином</h2>
+                <div class="admin-actions">
+                    <button id="add-product-button" class="button">Добавить товар</button>
+                    <button id="view-orders-button" class="button">Просмотреть заказы</button>
+                    <button id="export-data-button" class="button">Экспорт данных</button>
+                </div>
+                <div id="password-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
+                    <div style="background: var(--card-bg); padding: 20px; border-radius: 8px; max-width: 400px; margin: 100px auto;">
+                        <h3>Введите пароль</h3>
+                        <input type="password" id="admin-password" placeholder="Пароль">
+                        <button id="submit-password">Подтвердить</button>
+                        <button id="cancel-password">Отменить</button>
+                    </div>
+                </div>
+                <form id="add-product-form" style="display: none;">
+                    <h3>➕ Добавить новый товар</h3>
+                    <input type="text" id="product-name" placeholder="Название товара" required>
+                    <input type="number" id="product-price" placeholder="Цена (сомони)" required>
+                    <select id="product-category" required>
+                        <option value="" disabled selected>Выберите категорию</option>
+                        <option value="clothing">👕 Одежда</option>
+                        <option value="tech">📱 Техника</option>
+                    </select>
+                    <textarea id="product-description" placeholder="Описание" required></textarea>
+                    <div class="file-input">
+                        <input type="file" id="product-image" accept="image/*" required>
+                        <label for="product-image">Выбрать фото</label>
+                    </div>
+                    <button type="submit">Добавить товар</button>
+                </form>
+                <div id="admin-products" class="product-grid"></div>
+                <div class="contact-links">
+                    <a href="https://t.me/ubayda_1507" class="button">Связаться в Telegram</a>
+                    <a href="https://wa.me/992905746633" class="button">Связаться в WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+        <section data-section="cart" style="display: none;">
+            <div class="container">
+                <h2>🛒 Корзина</h2>
+                <div id="cart-items"></div>
+                <div class="cart-total">
+                    <p>Итого: <span id="cart-total">0</span> сомони</p>
+                    <form id="checkout-form">
+                        <input type="text" id="checkout-name" placeholder="Имя" required>
+                        <input type="text" id="checkout-address" placeholder="Адрес" required>
+                        <button type="submit">Оформить заказ</button>
+                    </form>
+                </div>
+                <div id="empty-cart" style="display: none;">
+                    <p>Корзина пуста</p>
+                    <p>Добавьте товары из магазина</p>
+                    <a href="#shop" class="button">Перейти в магазин</a>
+                </div>
+            </div>
+        </section>
+
+        <section data-section="orders" style="display: none;">
+            <div class="container">
+                <h2>📋 Заказы</h2>
+                <div id="order-list"></div>
+                <div id="empty-orders" style="display: none;">
+                    <p>Заказов пока нет</p>
+                    <p>Заказы будут отображаться здесь</p>
+                </div>
+            </div>
+        </section>
+
+        <section data-section="profile" style="display: none;">
+            <div class="container">
+                <h2>📋 Профиль</h2>
+                <div id="auth-section">
+                    <button id="login-button">Войти</button>
+                    <button id="signup-button">Регистрация</button>
+                    <button id="logout-button" style="display: none;">Выйти</button>
+                </div>
+                <form id="profile-form" style="display: none;">
+                    <input type="text" id="profile-name" placeholder="Имя" required>
+                    <input type="text" id="profile-address" placeholder="Адрес" required>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 TurkiyaMode. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <div id="notification" class="notification"></div>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
